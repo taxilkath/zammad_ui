@@ -138,11 +138,11 @@ const formatRelativeTime = (dateStr: string): string => {
     const diffSec = Math.floor((now.getTime() - date.getTime()) / 1000)
     if (diffSec < 60) return __('just now')
     const diffMin = Math.floor(diffSec / 60)
-    if (diffMin < 60) return __('%s min ago', diffMin)
+    if (diffMin < 60) return __('%s min ago').replace('%s', String(diffMin))
     const diffHrs = Math.floor(diffMin / 60)
-    if (diffHrs < 24) return __('%s hr ago', diffHrs)
+    if (diffHrs < 24) return __('%s hr ago').replace('%s', String(diffHrs))
     const diffDays = Math.floor(diffHrs / 24)
-    return __('%s day(s) ago', diffDays)
+    return __('%s day(s) ago').replace('%s', String(diffDays))
   } catch {
     return dateStr
   }
@@ -465,7 +465,7 @@ const executeTerminateSession = async () => {
                     type="button"
                     class="rounded-lg p-1.5 text-red-500 transition hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950/30 dark:hover:text-red-400"
                     :title="__('Terminate Session')"
-                    :aria-label="__('Terminate session for %s', getUserDisplayName(session))"
+                    :aria-label="__('Terminate session for %s').replace('%s', getUserDisplayName(session))"
                     @click="confirmTerminateSession(session)"
                   >
                     <CommonIcon name="trash" class="h-4 w-4" />
@@ -502,8 +502,7 @@ const executeTerminateSession = async () => {
                 {{
                   __(
                     'The user "%s" will be disconnected immediately and required to sign in again.',
-                    getUserDisplayName(terminateModal.session),
-                  )
+                  ).replace('%s', getUserDisplayName(terminateModal.session))
                 }}
               </p>
             </div>

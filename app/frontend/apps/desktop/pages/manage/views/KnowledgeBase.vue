@@ -867,10 +867,18 @@ onMounted(() => {
 
           <!-- Master Switch (Activate / Deactivate) -->
           <div v-if="kb" class="flex items-center gap-3 bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 px-4 py-2 rounded-xl shadow-sm">
-            <div class="text-right">
-              <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 block">{{ __('Public Status') }}</span>
-              <span class="text-[11px]" :class="kb.active ? 'text-green-600 font-medium' : 'text-slate-400'">
-                {{ kb.active ? __('Active') : __('Inactive') }}
+            <div class="text-right flex flex-col items-end">
+              <span class="text-xs font-semibold text-slate-800 dark:text-slate-200 block mb-0.5">{{ __('Public Status') }}</span>
+              <span
+                class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium shadow-2xs"
+                :class="kb.active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800' : 'bg-slate-100 text-slate-500 border border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'"
+              >
+                <CommonIcon
+                  :name="kb.active ? 'check2' : 'x-lg'"
+                  class="w-3 h-3"
+                  :class="kb.active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'"
+                />
+                <span>{{ kb.active ? __('Active') : __('Inactive') }}</span>
               </span>
             </div>
             <button

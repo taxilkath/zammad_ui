@@ -233,8 +233,8 @@ const toggleWorkflowActive = async (wf: CoreWorkflowRecord) => {
     }
     wf.active = newActive
     successMessage.value = newActive
-      ? __('Workflow "%s" activated.', wf.name)
-      : __('Workflow "%s" deactivated.', wf.name)
+      ? __('Workflow "%s" activated.').replace('%s', wf.name)
+      : __('Workflow "%s" deactivated.').replace('%s', wf.name)
     setTimeout(() => {
       successMessage.value = ''
     }, 4000)
@@ -558,7 +558,7 @@ const executeDeleteWorkflow = async () => {
     }
     const { name } = deleteModal.value.workflow
     deleteModal.value.isOpen = false
-    successMessage.value = __('Workflow "%s" deleted.', name)
+    successMessage.value = __('Workflow "%s" deleted.').replace('%s', name)
     setTimeout(() => {
       successMessage.value = ''
     }, 4000)
@@ -870,11 +870,11 @@ const executeDeleteWorkflow = async () => {
                       {{
                         getConditionsCount(wf) === 0
                           ? __('Always runs')
-                          : __('%s condition(s)', getConditionsCount(wf))
+                          : __('%s condition(s)').replace('%s', String(getConditionsCount(wf)))
                       }}
                     </span>
                     <span class="font-medium text-blue-600 dark:text-blue-400">
-                      {{ __('%s action(s)', getActionsCount(wf)) }}
+                      {{ __('%s action(s)').replace('%s', String(getActionsCount(wf))) }}
                     </span>
                   </div>
                 </td>
@@ -887,7 +887,7 @@ const executeDeleteWorkflow = async () => {
                     :class="wf.active ? 'bg-blue-600' : 'bg-slate-300 dark:bg-slate-700'"
                     role="switch"
                     :aria-checked="wf.active"
-                    :aria-label="__('Toggle active state for %s', wf.name)"
+                    :aria-label="__('Toggle active state for %s').replace('%s', wf.name)"
                     :disabled="isToggling[wf.id]"
                     @click="toggleWorkflowActive(wf)"
                   >
@@ -909,7 +909,7 @@ const executeDeleteWorkflow = async () => {
                       type="button"
                       class="cursor-pointer rounded p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                       :title="__('Edit')"
-                      :aria-label="__('Edit %s', wf.name)"
+                      :aria-label="__('Edit %s').replace('%s', wf.name)"
                       @click="openEditWorkflowModal(wf)"
                     >
                       <CommonIcon name="pen" class="h-4 w-4" />
@@ -918,7 +918,7 @@ const executeDeleteWorkflow = async () => {
                       type="button"
                       class="cursor-pointer rounded p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200"
                       :title="__('Duplicate')"
-                      :aria-label="__('Duplicate %s', wf.name)"
+                      :aria-label="__('Duplicate %s').replace('%s', wf.name)"
                       @click="duplicateWorkflow(wf)"
                     >
                       <CommonIcon name="copy" class="h-4 w-4" />
@@ -927,7 +927,7 @@ const executeDeleteWorkflow = async () => {
                       type="button"
                       class="cursor-pointer rounded p-1.5 text-red-500 hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950/30 dark:hover:text-red-400"
                       :title="__('Delete')"
-                      :aria-label="__('Delete %s', wf.name)"
+                      :aria-label="__('Delete %s').replace('%s', wf.name)"
                       @click="confirmDeleteWorkflow(wf)"
                     >
                       <CommonIcon name="trash" class="h-4 w-4" />
@@ -1528,9 +1528,9 @@ const executeDeleteWorkflow = async () => {
               </h3>
               <p class="text-xs text-slate-500 dark:text-slate-400">
                 {{
-                  __(
-                    'Are you sure you want to delete "%s"? This action cannot be undone.',
-                    deleteModal.workflow?.name,
+                  __('Are you sure you want to delete "%s"? This action cannot be undone.').replace(
+                    '%s',
+                    deleteModal.workflow?.name || '',
                   )
                 }}
               </p>

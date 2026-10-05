@@ -489,13 +489,24 @@ onMounted(() => {
                 {{ tmpl.name }}
               </td>
               <!-- Active -->
-              <td class="py-4 px-6 text-center" @click.stop>
+              <td class="py-4 px-6 text-center whitespace-nowrap" @click.stop>
                 <button
+                  type="button"
                   @click="toggleActiveState(tmpl)"
-                  class="inline-flex items-center justify-center w-6 h-6 rounded-full transition-colors cursor-pointer"
-                  :class="tmpl.active !== false ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-600'"
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer shadow-2xs"
+                  :class="
+                    tmpl.active !== false
+                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
+                      : 'bg-slate-100 text-slate-500 border border-slate-200 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'
+                  "
+                  :title="tmpl.active !== false ? __('Click to deactivate') : __('Click to activate')"
                 >
-                  <CommonIcon name="check2" class="w-4 h-4" />
+                  <CommonIcon
+                    :name="tmpl.active !== false ? 'check2' : 'x-lg'"
+                    class="w-3.5 h-3.5"
+                    :class="tmpl.active !== false ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'"
+                  />
+                  <span>{{ tmpl.active !== false ? __('Active') : __('Inactive') }}</span>
                 </button>
               </td>
               <!-- Actions -->

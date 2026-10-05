@@ -49,6 +49,12 @@ const categories = ref<Category[]>([
         description: __('Organize agents and assign ticket permissions.'),
       },
       {
+        name: __('Roles'),
+        icon: 'shield-lock',
+        target: '/manage/roles',
+        description: __('Manage permissions and access levels for user roles.'),
+      },
+      {
         name: __('Organizations'),
         icon: 'buildings',
         target: '/manage/organizations',
@@ -79,6 +85,12 @@ const categories = ref<Category[]>([
         description: __('Predefined templates for new tickets.'),
       },
       {
+        name: __('Tags'),
+        icon: 'tag',
+        target: '/manage/tags',
+        description: __('Manage global ticket tags, permissions, and aliases.'),
+      },
+      {
         name: __('Checklists'),
         icon: 'check2-square',
         target: '/manage/checklists',
@@ -101,6 +113,12 @@ const categories = ref<Category[]>([
         icon: 'globe',
         target: '/manage/webhooks',
         description: __('Send real-time updates to external services.'),
+      },
+      {
+        name: __('Public Links'),
+        icon: 'link',
+        target: '/manage/public_links',
+        description: __('Configure public footer links on login and signup pages.'),
       },
       {
         name: __('Calendars'),

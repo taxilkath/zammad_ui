@@ -769,13 +769,21 @@ onMounted(() => {
                 {{ Array.isArray(user.organizations) && user.organizations.length ? user.organizations.join(', ') : '-' }}
               </td>
               <!-- Active Status -->
-              <td class="py-4 px-6 text-center">
+              <td class="py-4 px-6 text-center whitespace-nowrap">
                 <span
-                  class="inline-flex items-center justify-center w-5 h-5 rounded-full"
-                  :class="user.active ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-600'"
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium shadow-2xs"
+                  :class="
+                    user.active
+                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
+                      : 'bg-slate-100 text-slate-500 border border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'
+                  "
                 >
-                  <CommonIcon v-if="user.active" name="check2" class="w-3.5 h-3.5" />
-                  <span v-else class="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-600 rounded-full"></span>
+                  <CommonIcon
+                    :name="user.active ? 'check2' : 'x-lg'"
+                    class="w-3.5 h-3.5"
+                    :class="user.active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'"
+                  />
+                  <span>{{ user.active ? __('Active') : __('Inactive') }}</span>
                 </span>
               </td>
               <!-- Actions Dropdown -->

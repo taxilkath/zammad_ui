@@ -199,7 +199,7 @@ const installFromApi = async (meta: ApiPackageMeta) => {
       body: JSON.stringify({ id: meta.id || meta.name }),
     })
     if (!res.ok) throw new Error(`HTTP error ${res.status}`)
-    successMessage.value = __('Package "%s" installed successfully.', meta.name)
+    successMessage.value = __('Package "%s" installed successfully.').replace('%s', meta.name)
     setTimeout(() => {
       successMessage.value = ''
     }, 4000)
@@ -227,7 +227,7 @@ const updatePackage = async (pkg: PackageRecord) => {
       body: JSON.stringify({ id: pkg.id }),
     })
     if (!res.ok) throw new Error(`HTTP error ${res.status}`)
-    successMessage.value = __('Package "%s" updated successfully.', pkg.name)
+    successMessage.value = __('Package "%s" updated successfully.').replace('%s', pkg.name)
     setTimeout(() => {
       successMessage.value = ''
     }, 4000)
@@ -266,7 +266,7 @@ const executeUninstall = async () => {
     })
     if (!res.ok) throw new Error(`HTTP error ${res.status}`)
     uninstallModal.value.isOpen = false
-    successMessage.value = __('Package "%s" uninstalled.', pkg.name)
+    successMessage.value = __('Package "%s" uninstalled.').replace('%s', pkg.name)
     setTimeout(() => {
       successMessage.value = ''
     }, 4000)
@@ -464,7 +464,7 @@ const saveToken = async () => {
             class="border-b border-slate-200 bg-slate-50/80 px-6 py-4 dark:border-slate-800 dark:bg-slate-800/60"
           >
             <h2 class="text-sm font-bold text-slate-900 dark:text-white">
-              {{ __('Installed Packages (%s)', installedPackages.length) }}
+              {{ __('Installed Packages (%s)').replace('%s', String(installedPackages.length)) }}
             </h2>
           </div>
 
@@ -538,7 +538,7 @@ const saveToken = async () => {
                       v-if="hasUpdate(pkg)"
                       class="text-2xs rounded-full bg-blue-100 px-2 py-0.5 font-semibold text-blue-800 ltr:ml-2 rtl:mr-2 dark:bg-blue-900/40 dark:text-blue-300"
                     >
-                      {{ __('v%s available', getRemoteVersion(pkg)) }}
+                      {{ __('v%s available').replace('%s', getRemoteVersion(pkg)) }}
                     </span>
                   </td>
 
@@ -564,7 +564,7 @@ const saveToken = async () => {
                         type="button"
                         class="inline-flex items-center rounded-lg bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700 transition hover:bg-blue-100 dark:bg-blue-950/30 dark:text-blue-300 dark:hover:bg-blue-900/40"
                         :disabled="isActionLoading[`update-${pkg.id}`]"
-                        :aria-label="__('Update %s', pkg.name)"
+                        :aria-label="__('Update %s').replace('%s', pkg.name)"
                         @click="updatePackage(pkg)"
                       >
                         <CommonIcon
@@ -578,7 +578,7 @@ const saveToken = async () => {
                         type="button"
                         class="rounded-lg p-1.5 text-red-500 transition hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950/30 dark:hover:text-red-400"
                         :title="__('Uninstall')"
-                        :aria-label="__('Uninstall %s', pkg.name)"
+                        :aria-label="__('Uninstall %s').replace('%s', pkg.name)"
                         @click="confirmUninstall(pkg)"
                       >
                         <CommonIcon name="trash" class="h-4 w-4" />
@@ -600,7 +600,7 @@ const saveToken = async () => {
             class="border-b border-slate-200 bg-slate-50/80 px-6 py-4 dark:border-slate-800 dark:bg-slate-800/60"
           >
             <h2 class="text-sm font-bold text-slate-900 dark:text-white">
-              {{ __('Available from Zammad Repository (%s)', availableToInstall.length) }}
+              {{ __('Available from Zammad Repository (%s)').replace('%s', String(availableToInstall.length)) }}
             </h2>
           </div>
           <div class="divide-y divide-slate-200 dark:divide-slate-800">
@@ -628,7 +628,7 @@ const saveToken = async () => {
                 type="button"
                 class="inline-flex shrink-0 items-center rounded-xl bg-blue-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-blue-700 disabled:opacity-50 ltr:ml-4 rtl:mr-4"
                 :disabled="isActionLoading[`install-${item.name}`]"
-                :aria-label="__('Install %s', item.name)"
+                :aria-label="__('Install %s').replace('%s', item.name)"
                 @click="installFromApi(item)"
               >
                 <CommonIcon
@@ -668,8 +668,7 @@ const saveToken = async () => {
                 {{
                   __(
                     'Are you sure you want to uninstall "%s"? All package data and configured assets will be permanently removed.',
-                    uninstallModal.pkg.name,
-                  )
+                  ).replace('%s', uninstallModal.pkg?.name || '')
                 }}
               </p>
             </div>

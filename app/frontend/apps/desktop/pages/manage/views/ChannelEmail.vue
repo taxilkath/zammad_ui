@@ -1300,10 +1300,15 @@ onMounted(() => {
                           {{ getChannelAddresses(channel.id)[0]?.name || channel.options?.inbound?.options?.user || __('Email Account') }}
                         </span>
                         <span
-                          class="px-2 py-0.5 rounded-full text-[10px] font-semibold"
-                          :class="channel.active ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'"
+                          class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium shadow-2xs"
+                          :class="channel.active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800' : 'bg-slate-100 text-slate-500 border border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'"
                         >
-                          {{ channel.active ? __('Active') : __('Inactive') }}
+                          <CommonIcon
+                            :name="channel.active ? 'check2' : 'x-lg'"
+                            class="w-3.5 h-3.5"
+                            :class="channel.active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'"
+                          />
+                          <span>{{ channel.active ? __('Active') : __('Inactive') }}</span>
                         </span>
                         <span class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 border border-blue-200/50">
                           {{ channel.options?.inbound?.adapter?.toUpperCase() || 'IMAP' }} / {{ channel.options?.outbound?.adapter?.toUpperCase() || 'SMTP' }}
@@ -1470,10 +1475,15 @@ onMounted(() => {
                   ></span>
                   <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100 truncate">{{ filter.name }}</h3>
                   <span
-                    class="px-2 py-0.5 rounded-full text-[10px] font-semibold"
-                    :class="filter.active ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium shadow-2xs"
+                    :class="filter.active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800' : 'bg-slate-100 text-slate-500 border border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'"
                   >
-                    {{ filter.active ? __('Active') : __('Inactive') }}
+                    <CommonIcon
+                      :name="filter.active ? 'check2' : 'x-lg'"
+                      class="w-3.5 h-3.5"
+                      :class="filter.active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'"
+                    />
+                    <span>{{ filter.active ? __('Active') : __('Inactive') }}</span>
                   </span>
                 </div>
                 <div class="flex items-center gap-3 text-xs text-slate-500 flex-wrap">

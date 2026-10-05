@@ -267,7 +267,7 @@ const handleEditTrigger = (trig: TriggerItem) => {
 const handleCloneTrigger = (trig: TriggerItem) => {
   formState.value = {
     id: null,
-    name: __('%s (Copy)', trig.name || __('Trigger')),
+    name: __('%s (Copy)').replace('%s', trig.name || __('Trigger')),
     activator: trig.activator || 'action',
     execution_condition_mode: trig.execution_condition_mode || 'selective',
     note: htmlToPlainText(trig.note || ''),
@@ -333,7 +333,7 @@ const saveTrigger = async () => {
 }
 
 const handleDeleteTrigger = async (id: number, name: string) => {
-  if (!confirm(__('Are you sure you want to delete trigger "%s"?', name))) return
+  if (!confirm(__('Are you sure you want to delete trigger "%s"?').replace('%s', name))) return
   try {
     const res = await fetch(`/api/v1/triggers/${id}`, {
       method: 'DELETE',
@@ -485,13 +485,24 @@ onMounted(() => {
                 {{ trig.activator === 'time' ? __('Time event') : __('Action') }}
               </td>
               <!-- Active -->
-              <td class="py-4 px-6 text-center" @click.stop>
+              <td class="py-4 px-6 text-center whitespace-nowrap" @click.stop>
                 <button
+                  type="button"
                   @click="toggleActiveState(trig)"
-                  class="inline-flex items-center justify-center w-6 h-6 rounded-full transition-colors cursor-pointer"
-                  :class="trig.active !== false ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-600'"
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer shadow-2xs"
+                  :class="
+                    trig.active !== false
+                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
+                      : 'bg-slate-100 text-slate-500 border border-slate-200 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'
+                  "
+                  :title="trig.active !== false ? __('Click to deactivate') : __('Click to activate')"
                 >
-                  <CommonIcon name="check2" class="w-4 h-4" />
+                  <CommonIcon
+                    :name="trig.active !== false ? 'check2' : 'x-lg'"
+                    class="w-3.5 h-3.5"
+                    :class="trig.active !== false ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'"
+                  />
+                  <span>{{ trig.active !== false ? __('Active') : __('Inactive') }}</span>
                 </button>
               </td>
               <!-- Actions -->

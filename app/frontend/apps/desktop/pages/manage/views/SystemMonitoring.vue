@@ -78,9 +78,11 @@ const fetchHealthCheck = async (showLoadingIndicator = false) => {
       throw new Error(`HTTP error ${res.status}`)
     }
     const data: HealthCheckData = await res.json()
+    const isOk =
+      data.healthy !== false && (!data.issues || data.issues.length === 0)
     healthData.value = {
-      healthy: data.healthy ?? true,
-      status: data.status || 'ok',
+      healthy: isOk,
+      status: data.status || (isOk ? 'ok' : 'error'),
       token: data.token || '',
       message: data.message || '',
       issues: Array.isArray(data.issues) ? data.issues : [],
@@ -305,7 +307,7 @@ const executeRestartFailedJobs = async () => {
                 "
               >
                 <CommonIcon
-                  :name="isHealthy ? 'checkmark-circle' : 'alert-triangle'"
+                  :name="isHealthy ? 'check-circle-outline' : 'exclamation-triangle'"
                   class="h-8 w-8"
                 />
               </div>
@@ -329,7 +331,7 @@ const executeRestartFailedJobs = async () => {
                         : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300'
                     "
                   >
-                    {{ healthData.status || (isHealthy ? 'OK' : 'ERROR') }}
+                    {{ isHealthy ? __('OK') : __('ERROR') }}
                   </span>
                 </div>
                 <p
@@ -382,7 +384,7 @@ const executeRestartFailedJobs = async () => {
             class="mt-6 rounded-xl border border-red-200 bg-white p-4 shadow-2xs dark:border-red-900/60 dark:bg-slate-900"
           >
             <h3 class="text-xs font-bold tracking-wider text-red-800 uppercase dark:text-red-400">
-              {{ __('Active Issues (%s)', healthData.issues.length) }}
+              {{ __('Active Issues (%s)').replace('%s', String(healthData.issues.length)) }}
             </h3>
             <ul class="mt-2 divide-y divide-slate-100 dark:divide-slate-800">
               <li
@@ -391,7 +393,7 @@ const executeRestartFailedJobs = async () => {
                 class="flex items-start py-2 text-sm text-slate-800 dark:text-slate-200"
               >
                 <CommonIcon
-                  name="close-circle"
+                  name="x-circle"
                   class="mt-0.5 h-4 w-4 shrink-0 text-red-500 ltr:mr-2 rtl:ml-2"
                 />
                 <span>{{ issue }}</span>
@@ -552,7 +554,7 @@ const executeRestartFailedJobs = async () => {
             <div
               class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400"
             >
-              <CommonIcon name="alert-triangle" class="h-5 w-5" />
+              <CommonIcon name="exclamation-triangle" class="h-5 w-5" />
             </div>
             <div>
               <h3 class="text-base font-bold text-slate-900 dark:text-white">

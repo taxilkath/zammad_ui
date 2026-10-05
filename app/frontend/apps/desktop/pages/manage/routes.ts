@@ -51,6 +51,18 @@ const route: RouteRecordRaw[] = [
     },
   },
   {
+    path: '/manage/roles',
+    name: 'ManageRoles',
+    component: () => import('./views/Roles.vue'),
+    meta: {
+      title: __('Roles Management'),
+      requiresAuth: true,
+      requiredPermission: ['admin', 'admin.*', 'admin.role'],
+      level: 3,
+      pageKey: 'manage-roles',
+    },
+  },
+  {
     path: '/manage/organizations',
     name: 'ManageOrganizations',
     component: () => import('./views/Organizations.vue'),
@@ -111,6 +123,18 @@ const route: RouteRecordRaw[] = [
     },
   },
   {
+    path: '/manage/tags',
+    name: 'ManageTags',
+    component: () => import('./views/Tags.vue'),
+    meta: {
+      title: __('Tags Management'),
+      requiresAuth: true,
+      requiredPermission: ['admin', 'admin.*', 'admin.tag'],
+      level: 3,
+      pageKey: 'manage-tags',
+    },
+  },
+  {
     path: '/manage/checklists',
     name: 'ManageChecklists',
     component: () => import('./views/Checklists.vue'),
@@ -156,6 +180,18 @@ const route: RouteRecordRaw[] = [
       requiredPermission: ['admin', 'admin.*'],
       level: 3,
       pageKey: 'manage-webhooks',
+    },
+  },
+  {
+    path: '/manage/public_links',
+    name: 'ManagePublicLinks',
+    component: () => import('./views/PublicLinks.vue'),
+    meta: {
+      title: __('Public Links Management'),
+      requiresAuth: true,
+      requiredPermission: ['admin', 'admin.*', 'admin.public_links'],
+      level: 3,
+      pageKey: 'manage-public-links',
     },
   },
   {

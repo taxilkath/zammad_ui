@@ -382,7 +382,7 @@ const executeDeleteApp = async () => {
     if (!res.ok) throw new Error(`HTTP error ${res.status}`)
     const { name } = deleteModal.value.app
     deleteModal.value.isOpen = false
-    successMessage.value = __('Application "%s" deleted.', name)
+    successMessage.value = __('Application "%s" deleted.').replace('%s', name)
     setTimeout(() => {
       successMessage.value = ''
     }, 4000)
@@ -693,7 +693,7 @@ const executeDeleteApp = async () => {
                       type="button"
                       class="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200"
                       :title="__('Copy Client ID')"
-                      :aria-label="__('Copy Client ID for %s', app.name)"
+                      :aria-label="__('Copy Client ID for %s').replace('%s', app.name)"
                       @click="copyToClipboard(app.uid, `uid-${app.id}`)"
                     >
                       <CommonIcon
@@ -714,7 +714,7 @@ const executeDeleteApp = async () => {
                   <button
                     type="button"
                     class="inline-flex items-center rounded-lg border border-stone-200 bg-white px-2.5 py-1 text-xs font-medium text-stone-700 hover:bg-stone-50 dark:border-stone-700 dark:bg-stone-800 dark:text-stone-300 dark:hover:bg-stone-700"
-                    :aria-label="__('View Credentials for %s', app.name)"
+                    :aria-label="__('View Credentials for %s').replace('%s', app.name)"
                     @click="openCredentialsModal(app)"
                   >
                     <CommonIcon name="eye" class="size-3.5 text-stone-400 ltr:mr-1 rtl:ml-1" />
@@ -727,7 +727,7 @@ const executeDeleteApp = async () => {
                   <button
                     type="button"
                     class="inline-flex items-center rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
-                    :aria-label="__('Generate Token for %s', app.name)"
+                    :aria-label="__('Generate Token for %s').replace('%s', app.name)"
                     @click="openGenerateTokenModal(app)"
                   >
                     <CommonIcon name="key" class="size-3.5 ltr:mr-1 rtl:ml-1" />
@@ -742,7 +742,7 @@ const executeDeleteApp = async () => {
                       type="button"
                       class="rounded p-1.5 text-stone-500 hover:bg-stone-100 hover:text-stone-800 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200"
                       :title="__('Edit')"
-                      :aria-label="__('Edit %s', app.name)"
+                      :aria-label="__('Edit %s').replace('%s', app.name)"
                       @click="openEditAppModal(app)"
                     >
                       <CommonIcon name="pen" class="size-4" />
@@ -751,7 +751,7 @@ const executeDeleteApp = async () => {
                       type="button"
                       class="rounded p-1.5 text-red-500 hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950/30 dark:hover:text-red-400"
                       :title="__('Delete')"
-                      :aria-label="__('Delete %s', app.name)"
+                      :aria-label="__('Delete %s').replace('%s', app.name)"
                       @click="confirmDeleteApp(app)"
                     >
                       <CommonIcon name="trash" class="size-4" />
@@ -1080,8 +1080,7 @@ const executeDeleteApp = async () => {
               {{
                 __(
                   'Generate a new API access token on behalf of your current session for "%s".',
-                  tokenModal.app.name,
-                )
+                ).replace('%s', tokenModal.app?.name || '')
               }}
             </p>
 
@@ -1170,8 +1169,7 @@ const executeDeleteApp = async () => {
                 {{
                   __(
                     'Are you sure you want to delete "%s"? All existing tokens for this app will be revoked.',
-                    deleteModal.app.name,
-                  )
+                  ).replace('%s', deleteModal.app?.name || '')
                 }}
               </p>
             </div>

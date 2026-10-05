@@ -254,7 +254,7 @@ const handleCloneCalendar = (cal: CalendarItem) => {
 
   formState.value = {
     id: null,
-    name: __('%s (Copy)', cal.name || __('Calendar')),
+    name: __('%s (Copy)').replace('%s', cal.name || __('Calendar')),
     timezone: cal.timezone || 'UTC',
     default: false,
     ical_url: cal.ical_url || '',
@@ -265,7 +265,7 @@ const handleCloneCalendar = (cal: CalendarItem) => {
 }
 
 const handleDeleteCalendar = async (id: number, name: string) => {
-  if (!confirm(__('Are you sure you want to delete calendar "%s"?', name))) return
+  if (!confirm(__('Are you sure you want to delete calendar "%s"?').replace('%s', name))) return
   try {
     const res = await fetch(`/api/v1/calendars/${id}`, {
       method: 'DELETE',
@@ -418,13 +418,24 @@ onMounted(() => {
                 {{ cal.timezone }}
               </td>
               <!-- Standard / Default -->
-              <td class="py-4 px-6 text-center" @click.stop>
+              <td class="py-4 px-6 text-center whitespace-nowrap" @click.stop>
                 <button
+                  type="button"
                   @click="toggleDefaultState(cal)"
-                  class="inline-flex items-center justify-center w-6 h-6 rounded-full transition-colors cursor-pointer"
-                  :class="cal.default ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-600'"
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer shadow-2xs"
+                  :class="
+                    cal.default
+                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800'
+                      : 'bg-slate-100 text-slate-500 border border-slate-200 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'
+                  "
+                  :title="cal.default ? __('Default calendar') : __('Set as default')"
                 >
-                  <CommonIcon name="check2" class="w-4 h-4" />
+                  <CommonIcon
+                    :name="cal.default ? 'check2' : 'dash'"
+                    class="w-3.5 h-3.5"
+                    :class="cal.default ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'"
+                  />
+                  <span>{{ cal.default ? __('Default') : __('Standard') }}</span>
                 </button>
               </td>
               <!-- Actions -->

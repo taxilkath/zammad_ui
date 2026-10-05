@@ -221,7 +221,7 @@ const handleEditSla = (sla: SlaItem) => {
 const handleCloneSla = (sla: SlaItem) => {
   formState.value = {
     id: null,
-    name: __('%s (Copy)', sla.name || __('SLA')),
+    name: __('%s (Copy)').replace('%s', sla.name || __('SLA')),
     calendar_id: sla.calendar_id || null,
     first_response_time: sla.first_response_time || sla.response_time || '',
     update_time: sla.update_time || '',
@@ -312,7 +312,7 @@ const saveSla = async () => {
 }
 
 const handleDeleteSla = async (id: number, name: string) => {
-  if (!confirm(__('Are you sure you want to delete SLA "%s"?', name))) return
+  if (!confirm(__('Are you sure you want to delete SLA "%s"?').replace('%s', name))) return
   try {
     const res = await fetch(`/api/v1/slas/${id}`, {
       method: 'DELETE',

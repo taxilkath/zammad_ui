@@ -108,6 +108,8 @@ const captchaNeedsScore = computed(() => {
 })
 
 // Generated Embed Snippet
+const closingScript = '<' + '/script>'
+
 const generatedEmbedSnippet = computed(() => {
   const host = window.location.origin
   const quote = (str: string) => str.replace(/'/g, "\\'")
@@ -116,8 +118,12 @@ const generatedEmbedSnippet = computed(() => {
     ? `,\n    agreementSupport: true,\n    agreementMessage: '${quote(agreementMessage.value)}'`
     : ''
 
+  const targetElement = isModal.value
+    ? `<button id="feedback-form" type="button">${quote(messageTitle.value)}</button>`
+    : `<div id="feedback-form"></div>`
+
   if (scriptFormat.value === 'jquery') {
-    return `<button id="feedback-form" type="button">${quote(messageTitle.value)}</button>
+    return `${targetElement}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js">${closingScript}
 <script id="zammad_form_script" src="${host}/assets/form/form.js">${closingScript}
 <script>
@@ -136,22 +142,31 @@ $(function() {
 ${closingScript}`
   }
 
-  return `<button id="feedback-form" type="button">${quote(messageTitle.value)}</button>
+  return `${targetElement}
 <script id="zammad_form_script" src="${host}/assets/form/form.js">${closingScript}
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  new ZammadForm({
-    target: document.getElementById('feedback-form'),
-    messageTitle: '${quote(messageTitle.value)}',
-    messageSubmit: '${quote(messageSubmit.value)}',
-    messageThankYou: '${quote(messageThankYou.value)}',
-    modal: ${isModal.value},
-    showTitle: ${showTitle.value},
-    attachmentSupport: ${attachmentSupport.value},
-    noCSS: ${noCSS.value},
-    debug: ${debug.value}${agreementParam}
-  });
-});
+(function() {
+  function initZammad() {
+    window.jQuery('#feedback-form').ZammadForm({
+      messageTitle: '${quote(messageTitle.value)}',
+      messageSubmit: '${quote(messageSubmit.value)}',
+      messageThankYou: '${quote(messageThankYou.value)}',
+      modal: ${isModal.value},
+      showTitle: ${showTitle.value},
+      attachmentSupport: ${attachmentSupport.value},
+      noCSS: ${noCSS.value},
+      debug: ${debug.value}${agreementParam}
+    });
+  }
+  if (window.jQuery) {
+    initZammad();
+  } else {
+    var s = document.createElement('script');
+    s.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
+    s.onload = initZammad;
+    document.head.appendChild(s);
+  }
+})();
 ${closingScript}`
 })
 
@@ -160,8 +175,17 @@ const copySnippet = async () => {
     await navigator.clipboard.writeText(generatedEmbedSnippet.value)
     showSuccess(__('Embed code copied to clipboard.'))
   } catch (e) {
-    showError(__('Failed to copy embed code.'))
-    console.error(e)
+    try {
+      const el = document.createElement('textarea')
+      el.value = generatedEmbedSnippet.value
+      document.body.appendChild(el)
+      el.select()
+      document.execCommand('copy')
+      document.body.removeChild(el)
+      showSuccess(__('Embed code copied to clipboard.'))
+    } catch {
+      showError(__('Failed to copy embed code.'))
+    }
   }
 }
 
@@ -308,7 +332,7 @@ onMounted(() => {
       </div>
 
       <div v-if="errorMessage" class="mb-4 p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200 text-xs flex items-center gap-2 shadow-xs">
-        <CommonIcon name="alert-triangle" class="w-4 h-4 shrink-0 text-rose-500" />
+        <CommonIcon name="exclamation-triangle" class="w-4 h-4 shrink-0 text-rose-500" />
         <span>{{ errorMessage }}</span>
       </div>
 

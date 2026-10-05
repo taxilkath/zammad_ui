@@ -514,10 +514,15 @@ onMounted(() => {
 
             <div class="flex items-center gap-2">
               <span
-                class="px-2 py-0.5 rounded-full text-[10px] font-bold"
-                :class="channel.active ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-400'"
+                class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium shadow-2xs"
+                :class="channel.active ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800' : 'bg-slate-100 text-slate-500 border border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'"
               >
-                {{ channel.active ? __('Active') : __('Inactive') }}
+                <CommonIcon
+                  :name="channel.active ? 'check2' : 'x-lg'"
+                  class="w-3.5 h-3.5"
+                  :class="channel.active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'"
+                />
+                <span>{{ channel.active ? __('Active') : __('Inactive') }}</span>
               </span>
               <button
                 type="button"
@@ -833,6 +838,8 @@ onMounted(() => {
             </div>
           </div>
         </div>
+      </div>
+
       <!-- ================= MODAL: LOG INSPECT ================= -->
       <div
         v-if="isLogModalOpen && selectedLog"

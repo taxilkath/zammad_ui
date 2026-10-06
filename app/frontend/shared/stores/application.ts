@@ -131,10 +131,18 @@ export const useApplicationStore = defineStore(
 
       const loadingAppElement = document.getElementById('loading-app')
       if (loadingAppElement) {
-        loadingAppElement.style.transition = 'opacity 300ms ease'
+        loadingAppElement.style.transition = 'opacity 500ms cubic-bezier(0.16, 1, 0.3, 1), visibility 500ms'
         loadingAppElement.style.opacity = '0'
         loadingAppElement.style.pointerEvents = 'none'
-        setTimeout(() => loadingAppElement.remove(), 320)
+
+        const logoCard = loadingAppElement.querySelector('.student-logo-card') as HTMLElement | null
+        if (logoCard) {
+          logoCard.style.transition = 'transform 500ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease'
+          logoCard.style.transform = 'scale(0.92) translate3d(0, 0, 0)'
+          logoCard.style.opacity = '0'
+        }
+
+        setTimeout(() => loadingAppElement.remove(), 520)
       }
     }
 

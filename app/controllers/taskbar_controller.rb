@@ -14,6 +14,12 @@ class TaskbarController < ApplicationController
   end
 
   def create
+    taskbar = Taskbar.find_by(key: params[:key], user_id: current_user.id, app: params[:app] || 'desktop')
+    if taskbar
+      params[:id] = taskbar.id
+      return model_update_render(Taskbar, params)
+    end
+
     model_create_render(Taskbar, params)
   end
 
